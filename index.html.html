@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekend Coffee | Brewed for Slow Moments</title>
+    
+    <!-- Fonts: Inter (clean sans-serif) and Playfair Display (elegant serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           CSS VARIABLES - Design System
+           ============================================ */
+        :root {
+            /* Color Palette - Warm, minimal coffee tones */
+            --color-cream: #FAF7F2;
+            --color-coffee: #2C1810;
+            --color-accent: #8B6F47;
+            --color-muted: #6B5B4F;
+            --color-border: #E8E2D9;
+            --color-white: #FFFFFF;
+            --color-light-accent: #D4C4B0;
+            
+            /* Typography */
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 6rem;
+            
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--color-coffee);
+            background-color: var(--color-cream);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ============================================
+           NAVIGATION - Enhanced minimal nav
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 247, 242, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: 0 2px 8px rgba(44, 24, 16, 0.03);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif);
+            font-size: 1.625rem;
+            font-weight: 600;
+            color: var(--color-coffee);
+            letter-spacing: -0.03em;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-logo:hover {
+            color: var(--color-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            list-style: none;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-muted);
+            padding: 0.625rem 0;
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--color-coffee);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--color-coffee);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Mobile menu button */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 26px;
+            height: 2px;
+            background: var(--color-coffee);
+            margin: 6px 0;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           PAGE SECTIONS
+           ============================================ */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* ============================================
+           HOME PAGE - Merged with About (scrollable)
+           ============================================ */
+        #home.page {
+            min-height: auto;
+        }
+
+        #home.page.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================
+           HERO SECTION - Enhanced with background image
+           ============================================ */
+        .hero {
+            height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(
+                rgba(250, 247, 242, 0.75), 
+                rgba(250, 247, 242, 0.92)
+            ), url('https://i.imgur.com/JnNKyPa.jpeg');
+            background-size: cover;
+            background-position: 30% 70%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            padding: 0 var(--space-md);
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3.5rem, 9vw, 5.5rem);
+            font-weight: 600;
+            line-height: 1.05;
+            margin-bottom: var(--space-md);
+            color: var(--color-coffee);
+            letter-spacing: -0.02em;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        .hero-text {
+            font-size: 1.188rem;
+            color: var(--color-muted);
+            max-width: 540px;
+            margin: 0 auto var(--space-lg);
+            line-height: 1.75;
+            animation: fadeIn 0.8s ease-out 0.4s both;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1.125rem 3rem;
+            background-color: var(--color-coffee);
+            color: var(--color-cream);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            border: 2px solid var(--color-coffee);
+            cursor: pointer;
+            transition: var(--transition);
+            animation: fadeIn 0.8s ease-out 0.6s both;
+            box-shadow: 0 4px 12px rgba(44, 24, 16, 0.15);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--color-coffee);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(44, 24, 16, 0.2);
+        }
+
+        /* ============================================
+           ABOUT SECTION - Now part of Home page
+           ============================================ */
+        .about {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--color-accent);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .section-text {
+            font-size: 1.188rem;
+            color: var(--color-muted);
+            line-height: 1.85;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           MENU PAGE - Enhanced grid
+           ============================================ */
+        .menu-header {
+            text-align: center;
+            padding: var(--space-lg) var(--space-md) var(--space-md);
+        }
+
+        .menu-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 var(--space-md) var(--space-xl);
+        }
+
+        .menu-section {
+            margin-bottom: var(--space-lg);
+        }
+
+        .menu-section-title {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--color-coffee);
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--color-border);
+            letter-spacing: -0.01em;
+        }
+
+        .menu-grid {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .menu-item {
+            background: var(--color-white);
+            padding: var(--space-md);
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .menu-item:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 4px 16px rgba(44, 24, 16, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .menu-item-info {
+            flex: 1;
+        }
+
+        .menu-item-info h3 {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-coffee);
+            margin-bottom: 0.375rem;
+            letter-spacing: -0.01em;
+        }
+
+        .menu-item-info p {
+            font-size: 0.938rem;
+            color: var(--color-muted);
+            line-height: 1.6;
+        }
+
+        .menu-item-pricing {
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .menu-item-price {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            font-family: var(--font-serif);
+        }
+
+        .menu-item-tiers {
+            margin-top: 0.5rem;
+            font-size: 0.813rem;
+            color: var(--color-muted);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           GALLERY PAGE - Masonry-style grid
+           ============================================ */
+        .gallery-header {
+            text-align: center;
+            padding: var(--space-lg) var(--space-md);
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md) var(--space-xl);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background-color: var(--color-border);
+            border: 1px solid var(--color-border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Overlay on hover */
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to top,
+                rgba(44, 24, 16, 0.4),
+                transparent
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* ============================================
+           COMMUNITY WALL - Enhanced with image upload
+           ============================================ */
+        .community-header {
+            text-align: center;
+            padding: var(--space-lg) var(--space-md) var(--space-md);
+        }
+
+        .community-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 var(--space-md) var(--space-xl);
+        }
+
+        .community-form {
+            background: var(--color-white);
+            padding: var(--space-md);
+            border: 2px solid var(--color-border);
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-coffee);
+            margin-bottom: var(--space-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid var(--color-border);
+            background: var(--color-cream);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-coffee);
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: var(--color-white);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .file-upload-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            background: var(--color-cream);
+            border: 2px dashed var(--color-border);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--color-muted);
+            font-size: 0.938rem;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--color-accent);
+            background: var(--color-white);
+            color: var(--color-coffee);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .image-preview {
+            margin-top: var(--space-sm);
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border: 1px solid var(--color-border);
+        }
+
+        .image-preview.active {
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-coffee);
+            color: var(--color-cream);
+            border: 2px solid var(--color-coffee);
+            font-size: 0.938rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background-color: transparent;
+            color: var(--color-coffee);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .community-wall {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .wall-post {
+            background: var(--color-white);
+            padding: var(--space-md);
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+        }
+
+        .wall-post:hover {
+            box-shadow: 0 4px 16px rgba(44, 24, 16, 0.06);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: var(--color-coffee);
+            font-size: 1rem;
+        }
+
+        .post-date {
+            font-size: 0.813rem;
+            color: var(--color-muted);
+        }
+
+        .post-image {
+            margin: var(--space-sm) 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .post-message {
+            color: var(--color-muted);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           LOCATION SECTION - Enhanced
+           ============================================ */
+        .location {
+            padding: var(--space-xl) var(--space-md);
+            text-align: center;
+        }
+
+        .location-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .location-details {
+            background: var(--color-white);
+            padding: var(--space-lg);
+            margin-top: var(--space-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .location-item {
+            margin-bottom: var(--space-md);
+        }
+
+        .location-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .location-item h3 {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-coffee);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-item p {
+            color: var(--color-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .location-item a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 2px;
+        }
+
+        .location-item a:hover {
+            color: var(--color-coffee);
+            border-bottom-color: var(--color-coffee);
+        }
+
+        /* ============================================
+           FOOTER - Black footer with branding and social
+           ============================================ */
+        .footer {
+            background-color: #000000;
+            color: var(--color-cream);
+            padding: var(--space-lg) var(--space-md);
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .footer-brand {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-cream);
+            letter-spacing: -0.01em;
+        }
+
+        .footer-tagline {
+            font-size: 0.813rem;
+            color: rgba(250, 247, 242, 0.6);
+            font-weight: 400;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer-social-text {
+            font-size: 0.875rem;
+            color: var(--color-cream);
+            font-weight: 500;
+        }
+
+        .footer-instagram {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(250, 247, 242, 0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .footer-instagram:hover {
+            background-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .footer-instagram svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--color-cream);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 var(--space-sm);
+                height: 72px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--color-cream);
+                flex-direction: column;
+                padding: var(--space-md);
+                gap: var(--space-sm);
+                border-bottom: 1px solid var(--color-border);
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .page {
+                padding-top: 72px;
+            }
+
+            .hero {
+                height: calc(100vh - 72px);
+            }
+
+            .hero-title {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+
+            .hero-text {
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                padding: 1rem 2rem;
+                font-size: 0.813rem;
+            }
+
+            .section-title {
+                font-size: clamp(1.75rem, 7vw, 2.5rem);
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-item {
+                flex-direction: column;
+            }
+
+            .menu-item-pricing {
+                text-align: left;
+                width: 100%;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-md);
+            }
+
+            .footer-right {
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="showPage('home')">Weekend Coffee</div>
+            <button class="nav-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a class="nav-link active" onclick="showPage('home')" data-page="home">Home</a></li>
+                <li><a class="nav-link" onclick="showPage('menu')" data-page="menu">Menu</a></li>
+                <li><a class="nav-link" onclick="showPage('gallery')" data-page="gallery">Gallery</a></li>
+                <li><a class="nav-link" onclick="showPage('community')" data-page="community">Community</a></li>
+                <li><a class="nav-link" onclick="showPage('location')" data-page="location">Location</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE (Merged with About) -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Weekend Coffee</h1>
+                <p class="hero-text">Where every cup is crafted with intention, and every moment invites you to slow down and savor.</p>
+                <button class="btn-primary" onclick="showPage('menu')">View Menu</button>
+            </div>
+        </section>
+
+        <!-- About Section (Now part of Home page) -->
+        <section class="about">
+            <p class="section-label">Our Story</p>
+            <h2 class="section-title">Brewed for Slow Moments</h2>
+            <p class="section-text">
+                Weekend Coffee was born from a simple belief: that coffee should be more than just caffeine. 
+                It should be a ritual, a pause, a moment of clarity in the rush of daily life. Whether you're here for a quiet morning alone or catching up 
+                with old friends, we're honored to be part of your weekend rhythm.
+            </p>
+        </section>
+    </div>
+
+    <!-- MENU PAGE -->
+    <div id="menu" class="page">
+        <div class="menu-header">
+            <p class="section-label">Our Offerings</p>
+            <h2 class="section-title">Menu</h2>
+        </div>
+        <div class="menu-container">
+            <!-- Coffee Section -->
+            <div class="menu-section">
+                <h3 class="menu-section-title">Coffee</h3>
+                <div class="menu-grid">
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Filter - Weekend Coffee Selection</h3>
+                            <p>Our signature house blend, carefully selected and expertly brewed</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM12</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Filter - Seasonal Selection</h3>
+                            <p>Rotating single-origin beans showcasing the season's finest flavors</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM14</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Espresso Pack</h3>
+                            <p>Rich, bold espresso shot perfect for purists</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM4</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Americano</h3>
+                            <p>Classic espresso diluted with hot water for a smooth finish</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM8</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Iced Latte</h3>
+                            <p>Silky espresso with cold milk, perfectly balanced</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM10</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Iced Chocolate</h3>
+                            <p>Velvety chocolate drink served over ice</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM9</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>English Tea</h3>
+                            <p>Premium loose-leaf tea, steeped to perfection</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM5</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Bites Section -->
+            <div class="menu-section">
+                <h3 class="menu-section-title">Bites</h3>
+                <div class="menu-grid">
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Sandwich</h3>
+                            <p>Freshly made daily with quality ingredients</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM6</span>
+                        </div>
+                    </article>
+
+                    <article class="menu-item">
+                        <div class="menu-item-info">
+                            <h3>Cream Puff</h3>
+                            <p>Light, airy pastry filled with smooth cream</p>
+                        </div>
+                        <div class="menu-item-pricing">
+                            <span class="menu-item-price">RM2</span>
+                            <div class="menu-item-tiers">
+                                1 for RM2<br>
+                                3 for RM5<br>
+                                6 for RM10
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GALLERY PAGE -->
+    <div id="gallery" class="page">
+        <header class="gallery-header">
+            <p class="section-label">Visual Diary</p>
+            <h2 class="section-title">Gallery</h2>
+        </header>
+
+        <div class="gallery-container">
+            <div class="gallery-grid">
+                <figure class="gallery-item">
+                    <img src="https://i.imgur.com/62wLAR8.jpeg" 
+                         alt="Boys with coffee and sign board"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://i.imgur.com/q4pxdv4.jpeg" 
+                         alt="Boy with the gang"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/TetXFQQ.jpeg" 
+                         alt="Man with coffee shop counter"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/ISMS9Jx.jpeg" 
+                         alt="Menu on the counter"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/d7bZkxW.jpeg" 
+                         alt="Happy Days"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/r9UWcT9.jpeg" 
+                         alt="Camper van with coffee setup"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/2k3gZNG.jpeg"
+                         alt="Coffee and servings on table"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/bsUqQtp.jpeg" 
+                         alt="Boys that bought first espresso pack"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/vHn63e4.jpeg" 
+                         alt="Iced Latte"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/rnT1bY8.jpeg" 
+                         alt="Good Ol Days"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/xEULxuZ.jpeg" 
+                         alt="With 3B4~"
+                         loading="lazy">
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="https://imgur.com/lnN6irb.jpeg" 
+                         alt="2025 last day operating"
+                         loading="lazy">
+                </figure>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMUNITY PAGE -->
+    <div id="community" class="page">
+        <div class="community-header">
+            <p class="section-label">Share Your Moment</p>
+            <h2 class="section-title">Community Wall</h2>
+            <h3 class="section-label">*This is still in development, bear with us ;)*</h3>
+        </div>
+        <div class="community-container">
+            <!-- Post Form -->
+            <form class="community-form" onsubmit="addPost(event)">
+                <div class="form-group">
+                    <label class="form-label" for="name">Your Name</label>
+                    <input type="text" id="name" class="form-input" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Your Message</label>
+                    <textarea id="message" class="form-textarea" required placeholder="Share your Weekend Coffee moment..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Add a Photo (Optional)</label>
+                    <div class="file-upload-container">
+                        <label for="photo" class="file-upload-label">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <span id="fileName">Click to upload image (JPG, PNG)</span>
+                        </label>
+                        <input type="file" id="photo" class="file-upload-input" accept="image/png, image/jpeg" onchange="previewImage(event)">
+                    </div>
+                    <div id="imagePreview" class="image-preview"></div>
+                </div>
+                <button type="submit" class="btn-submit">Post to Wall</button>
+            </form>
+
+            <!-- Posts Wall -->
+            <div class="community-wall" id="communityWall">
+                <!-- Sample Posts -->
+                <article class="wall-post">
+                    <div class="post-header">
+                        <span class="post-author">Sarah Chen</span>
+                        <span class="post-date">Today, 10:30 AM</span>
+                    </div>
+                    <p class="post-message">The perfect Sunday morning spot. Their seasonal filter is absolutely divine!</p>
+                </article>
+
+                <article class="wall-post">
+                    <div class="post-header">
+                        <span class="post-author">Marcus Lee</span>
+                        <span class="post-date">Yesterday, 3:15 PM</span>
+                    </div>
+                    <p class="post-message">Love the minimalist vibe and the cream puffs are to die for. Highly recommend the 6-pack deal!</p>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCATION PAGE -->
+    <div id="location" class="page">
+        <section class="location">
+            <div class="location-content">
+                <p class="section-label">Visit Us</p>
+                <h2 class="section-title">Location & Hours</h2>
+                <div class="location-details">
+                    <div class="location-item">
+                        <h3>Address</h3>
+                        <p>
+                            <a href="https://maps.app.goo.gl/7tggQ9bXkoGBKWBD7" target="_blank" rel="noopener noreferrer">
+                                View on Google Maps →
+                            </a>
+                        </p>
+                    </div>
+                    <div class="location-item">
+                        <h3>Opening Hours</h3>
+                        <p>
+                            Weekends Only<br>
+                            Saturday & Sunday: 8:00 AM - 11:00 AM
+                        </p>
+                    </div>
+                    <div class="location-item">
+                        <h3>Contact</h3>
+                        <p>
+                            Phone: +60 12-345 6789<br>
+                            Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="335b565f5f5c7344565658565d57505c555556561d505c5e">[email&#160;protected]</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Image preview functionality
+        let selectedImage = null;
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const fileName = document.getElementById('fileName');
+            
+            if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    selectedImage = e.target.result;
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    preview.classList.add('active');
+                    fileName.textContent = file.name;
+                }
+                
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid PNG or JPG image.');
+                event.target.value = '';
+            }
+        }
+
+        // Add post to community wall
+        function addPost(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const wall = document.getElementById('communityWall');
+            
+            // Create new post element
+            const post = document.createElement('article');
+            post.className = 'wall-post fade-in';
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            let postHTML = `
+                <div class="post-header">
+                    <span class="post-author">${escapeHtml(name)}</span>
+                    <span class="post-date">Just now, ${timeString}</span>
+                </div>
+            `;
+            
+            // Add image if selected
+            if (selectedImage) {
+                postHTML += `
+                    <div class="post-image">
+                        <img src="${selectedImage}" alt="Post image">
+                    </div>
+                `;
+            }
+            
+            postHTML += `<p class="post-message">${escapeHtml(message)}</p>`;
+            
+            post.innerHTML = postHTML;
+            
+            // Insert at the top of the wall
+            wall.insertBefore(post, wall.firstChild);
+            
+            // Reset form
+            document.getElementById('name').value = '';
+            document.getElementById('message').value = '';
+            document.getElementById('photo').value = '';
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('imagePreview').classList.remove('active');
+            document.getElementById('fileName').textContent = 'Click to upload image (JPG, PNG)';
+            selectedImage = null;
+            
+            // Show success
+            alert('Post added successfully!');
+        }
+
+        // Utility function to escape HTML and prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('.nav');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="footer-brand">Weekend Coffee 2024</div>
+                <div class="footer-tagline">For hobby, friends and family purpose.</div>
+            </div>
+            <div class="footer-right">
+                <span class="footer-social-text">Follow us on Instagram for more</span>
+                <a href="https://www.instagram.com/weekendcoffee24/" target="_blank" rel="noopener noreferrer" class="footer-instagram" aria-label="Follow us on Instagram">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
